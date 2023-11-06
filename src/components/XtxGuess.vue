@@ -30,7 +30,7 @@ import { onMounted } from 'vue'
 
 // 分页参数 将可选变为必选 Required
 const pageParam: Required<PageParams> = {
-  page: 30,
+  page: 1,
   pageSize: 10,
 }
 
@@ -57,6 +57,13 @@ const getHomeGoodsGuessLikeData = async () => {
   }
 }
 
+// 重置数据
+const resetData = () => {
+  pageParam.page = 1
+  guessList.value = []
+  finish.value = false
+}
+
 // 组件挂载完毕
 onMounted(() => {
   getHomeGoodsGuessLikeData()
@@ -64,6 +71,7 @@ onMounted(() => {
 
 // 暴露方法
 defineExpose({
+  resetData,
   getMore: getHomeGoodsGuessLikeData,
 })
 </script>
