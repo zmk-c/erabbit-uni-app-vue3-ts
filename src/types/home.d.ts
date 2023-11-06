@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-06 16:33:44
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:09:43
+ * @LastEditTime: 2023-11-06 19:57:55
  * @FilePath: /erabbit-uni-app-vue3-ts/src/types/home.d.ts
  * @Description: 首页-数据类型
  */
@@ -43,4 +43,22 @@ export type HotItem = {
   title: string
   /** 推荐类型 */
   type: string
+}
+
+/** 猜你喜欢-商品类型 */
+export type GuessItem = {
+  /** 商品描述 */
+  desc: string
+  /** 商品折扣 */
+  discount: number
+  /** id */
+  id: string
+  /** 商品名称 */
+  name: string
+  /** 商品已下单数量 */
+  orderNum: number
+  /** 商品图片 */
+  picture: string
+  /** 商品价格 */
+  price: number
 }

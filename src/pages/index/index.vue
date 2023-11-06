@@ -2,15 +2,24 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-03 00:09:36
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:10:51
+ * @LastEditTime: 2023-11-06 19:50:31
  * @FilePath: /erabbit-uni-app-vue3-ts/src/pages/index/index.vue
  * @Description: 首页
 -->
 <template>
+  <!-- 自定义导航栏 -->
   <CustomNavbar></CustomNavbar>
-  <XtxSwiper :list="bannerList"></XtxSwiper>
-  <CategoryPanel :list="cateoryList"></CategoryPanel>
-  <HotPanel :list="hotList"></HotPanel>
+
+  <scroll-view class="scroller-view" scroll-y>
+    <!-- 自定义轮播图 -->
+    <XtxSwiper :list="bannerList"></XtxSwiper>
+    <!-- 分类面板 -->
+    <CategoryPanel :list="cateoryList"></CategoryPanel>
+    <!-- 热门推荐 -->
+    <HotPanel :list="hotList"></HotPanel>
+    <!-- 猜你喜欢 -->
+    <XtxGuess></XtxGuess>
+  </scroll-view>
 </template>
 
 <script setup lang="ts">
@@ -43,7 +52,7 @@ const getHomeHotData = async () => {
   hotList.value = res.result
 }
 
-// 小程序生命周期
+// 页面生命周期 onLoad->监听页面加载
 onLoad(() => {
   getHomeBannerData()
   getHomeCategoryData()
@@ -54,5 +63,12 @@ onLoad(() => {
 <style lang="scss">
 page {
   background-color: #f7f7ff;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.scroller-view {
+  flex: 1;
 }
 </style>
