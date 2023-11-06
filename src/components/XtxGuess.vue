@@ -18,20 +18,43 @@
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <view class="loading-text">{{ finish ? '没有更多了 (つ´ω`)つ' : '正在加载...' }}</view>
 </template>
 
 <script setup lang="ts">
 import { getHomeGoodsGuessLikeAPI } from '@/services/home'
+import type { PageParams } from '@/types/global'
 import type { GuessItem } from '@/types/home'
 import { ref } from 'vue'
 import { onMounted } from 'vue'
 
+// 分页参数 将可选变为必选 Required
+const pageParam: Required<PageParams> = {
+  page: 30,
+  pageSize: 10,
+}
+
+// 已经结束标记
+const finish = ref(false)
+// 猜你喜欢数组
 const guessList = ref<GuessItem[]>([])
 // 获取猜你喜欢数据类型
 const getHomeGoodsGuessLikeData = async () => {
-  const res = await getHomeGoodsGuessLikeAPI()
-  guessList.value = res.result.items
+  // 退出判断
+  if (finish.value) {
+    return uni.showToast({ icon: 'none', title: '没有更多了 (つ´ω`)つ' })
+  }
+  const res = await getHomeGoodsGuessLikeAPI(pageParam)
+  // guessList.value = res.result.items
+  // 改成数组的追加
+  guessList.value.push(...res.result.items)
+
+  if (pageParam.page < res.result.pages) {
+    // 页码累加
+    pageParam.page++
+  } else {
+    finish.value = true
+  }
 }
 
 // 组件挂载完毕
