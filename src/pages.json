@@ -12,6 +12,8 @@
     {
       "path": "pages/index/index",
       "style": {
+        "navigationStyle": "custom", // 隐藏自带的导航栏样式
+        "navigationBarTextStyle": "white",
         "navigationBarTitleText": "首页"
       }
     },
