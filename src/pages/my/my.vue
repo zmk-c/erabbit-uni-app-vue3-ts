@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-03 00:09:36
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 11:49:26
+ * @LastEditTime: 2023-11-06 15:12:38
  * @FilePath: /erabbit-uni-app-vue3-ts/src/pages/my/my.vue
  * @Description: 我的页面
 -->
@@ -29,16 +29,18 @@
 
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
-import '@/utils/http'
+import { http } from '@/utils/http'
 
 const memberStore = useMemberStore()
 
 // 测试请求
-const getData = () => {
-  uni.request({
+const getData = async () => {
+  const res = await http<string[]>({
     method: 'GET',
-    url: '/home/banner',
+    header: {},
+    url: '/member/profile',
   })
+  console.log(res)
 }
 </script>
 
