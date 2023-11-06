@@ -29,14 +29,19 @@ import { onMounted } from 'vue'
 
 const guessList = ref<GuessItem[]>([])
 // 获取猜你喜欢数据类型
-const getHomeGoodsGuessData = async () => {
+const getHomeGoodsGuessLikeData = async () => {
   const res = await getHomeGoodsGuessLikeAPI()
   guessList.value = res.result.items
 }
 
 // 组件挂载完毕
 onMounted(() => {
-  getHomeGoodsGuessData()
+  getHomeGoodsGuessLikeData()
+})
+
+// 暴露方法
+defineExpose({
+  getMore: getHomeGoodsGuessLikeData,
 })
 </script>
 

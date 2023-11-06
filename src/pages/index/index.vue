@@ -2,15 +2,15 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-03 00:09:36
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:50:31
+ * @LastEditTime: 2023-11-06 20:20:52
  * @FilePath: /erabbit-uni-app-vue3-ts/src/pages/index/index.vue
  * @Description: 首页
 -->
 <template>
   <!-- 自定义导航栏 -->
   <CustomNavbar></CustomNavbar>
-
-  <scroll-view class="scroller-view" scroll-y>
+  <!-- 滚动容器 -->
+  <scroll-view @scrolltolower="onScrolltolower" class="scroller-view" scroll-y>
     <!-- 自定义轮播图 -->
     <XtxSwiper :list="bannerList"></XtxSwiper>
     <!-- 分类面板 -->
@@ -18,7 +18,7 @@
     <!-- 热门推荐 -->
     <HotPanel :list="hotList"></HotPanel>
     <!-- 猜你喜欢 -->
-    <XtxGuess></XtxGuess>
+    <XtxGuess ref="guessRef"></XtxGuess>
   </scroll-view>
 </template>
 
@@ -28,6 +28,7 @@ import CategoryPanel from './components/CategoryPanel.vue'
 import HotPanel from './components/HotPanel.vue'
 import { getHomeBannerAPI, getHomeCategoryAPI, getHomeHotAPI } from '@/services/home'
 import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
+import type { XtxGuessInstance } from '@/types/component'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
@@ -58,6 +59,13 @@ onLoad(() => {
   getHomeCategoryData()
   getHomeHotData()
 })
+
+// 获取猜你喜欢组件实例
+const guessRef = ref<XtxGuessInstance>()
+// 滚动触底函数
+const onScrolltolower = () => {
+  guessRef.value?.getMore()
+}
 </script>
 
 <style lang="scss">

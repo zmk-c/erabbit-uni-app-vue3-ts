@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-03 00:09:36
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:25:52
+ * @LastEditTime: 2023-11-06 20:16:07
  * @FilePath: /erabbit-uni-app-vue3-ts/src/types/component.d.ts
  * @Description: 全局组件类型声明
  */
@@ -21,3 +21,6 @@ declare module 'vue' {
     XtxGuess: typeof XtxGuess
   }
 }
+
+// 组件实例类型
+export type XtxGuessInstance = InstanceType<typeof XtxGuess>
