@@ -2,10 +2,12 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-06 16:33:44
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:57:55
+ * @LastEditTime: 2023-11-07 23:08:15
  * @FilePath: /erabbit-uni-app-vue3-ts/src/types/home.d.ts
  * @Description: 首页-数据类型
  */
+
+import type { GoodsItem } from './global'
 
 /** 首页-广告区域数据类型 */
 export type BannerItem = {
@@ -45,20 +47,5 @@ export type HotItem = {
   type: string
 }
 
-/** 猜你喜欢-商品类型 */
-export type GuessItem = {
-  /** 商品描述 */
-  desc: string
-  /** 商品折扣 */
-  discount: number
-  /** id */
-  id: string
-  /** 商品名称 */
-  name: string
-  /** 商品已下单数量 */
-  orderNum: number
-  /** 商品图片 */
-  picture: string
-  /** 商品价格 */
-  price: number
-}
+/** 猜你喜欢-商品类型  和 热门推荐的商品类型一致*/
+export type GuessItem = GoodsItem

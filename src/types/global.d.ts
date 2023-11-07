@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-06 19:55:55
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:59:32
+ * @LastEditTime: 2023-11-07 22:58:00
  * @FilePath: /erabbit-uni-app-vue3-ts/src/types/global.d.ts
  * @Description: 通用数据类型
  */
@@ -27,4 +27,22 @@ export type PageParams = {
   page?: number
   /** 页大小：默认值为 10 */
   pageSize?: number
+}
+
+/** 通用商品类型 */
+export type GoodsItem = {
+  /** 商品描述 */
+  desc: string
+  /** 商品折扣 */
+  discount: number
+  /** id */
+  id: string
+  /** 商品名称 */
+  name: string
+  /** 商品已下单数量 */
+  orderNum: number
+  /** 商品图片 */
+  picture: string
+  /** 商品价格 */
+  price: number
 }
