@@ -4,7 +4,7 @@
     <view class="cover">
       <image :src="bannerPicture"></image>
     </view>
-    <!-- 推荐选项 -->
+    <!-- 推荐选项 使用动态类型绑定是哪个对应高亮-->
     <view class="tabs">
       <text
         class="text"
@@ -22,6 +22,7 @@
       v-for="(item, index) in subTypes"
       :key="item.id"
       v-show="activeIndex === index"
+      @scrolltolower="onScrolltolower"
     >
       <view class="goods">
         <navigator
@@ -39,7 +40,7 @@
           </view>
         </navigator>
       </view>
-      <view class="loading-text">正在加载...</view>
+      <view class="loading-text">{{ item.finish ? '没有更多了 (つ´ω`)つ' : '正在加载...' }}</view>
     </scroll-view>
   </view>
 </template>
@@ -70,12 +71,16 @@ uni.setNavigationBarTitle({ title: currentMap!.title })
 // 推荐封面图
 const bannerPicture = ref('')
 // 热门推荐-子类选项
-const subTypes = ref<SubTypeItem[]>([])
+const subTypes = ref<(SubTypeItem & { finish?: boolean })[]>([]) // 交叉类型 在返回数据中增加finish作为数据结束判断
 const activeIndex = ref(0) // 子类选项title 高亮的下标
 
 // 获取热门推荐数据
 const getHomeRecommadData = async () => {
-  const res = await getHomeRecommandAPI(currentMap!.url)
+  // 小技巧：环境变量，开发环境 修改初始页面方便测试分页结束
+  const res = await getHomeRecommandAPI(currentMap!.url, {
+    page: import.meta.env.DEV ? 30 : 1,
+    pageSize: 10,
+  })
   bannerPicture.value = res.result.bannerPicture
   subTypes.value = res.result.subTypes
 }
@@ -84,6 +89,32 @@ const getHomeRecommadData = async () => {
 onLoad(() => {
   getHomeRecommadData()
 })
+
+// 滚动触底函数
+const onScrolltolower = async () => {
+  // 获取当前选项
+  const cursubType = subTypes.value[activeIndex.value]
+
+  // 分页条件
+  if (cursubType.goodsItems.page < cursubType.goodsItems.pages) {
+    // 当前页面累加
+    cursubType.goodsItems.page++
+  } else {
+    // 标记已结束
+    cursubType.finish = true
+    return uni.showToast({ icon: 'none', title: '没有更多了 (つ´ω`)つ' })
+  }
+
+  const res = await getHomeRecommandAPI(currentMap!.url, {
+    subType: cursubType.id,
+    page: cursubType.goodsItems.page,
+    pageSize: cursubType.goodsItems.pageSize,
+  })
+  // 新的列表选项
+  const newsubType = res.result.subTypes[activeIndex.value]
+  // 数组的追加
+  cursubType.goodsItems.items.push(...newsubType.goodsItems.items)
+}
 </script>
 
 <style lang="scss">
