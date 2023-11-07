@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-06 19:05:41
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 19:16:25
+ * @LastEditTime: 2023-11-07 22:27:11
  * @FilePath: /erabbit-uni-app-vue3-ts/src/pages/index/components/HotPanel.vue
  * @Description: 首页-热门推荐
 -->
@@ -14,7 +14,7 @@
         <text class="title-text">{{ item.title }}</text>
         <text class="title-desc">{{ item.alt }}</text>
       </view>
-      <navigator hover-class="none" url="/pages/hot/hot" class="cards">
+      <navigator hover-class="none" :url="`/pages/hot/hot?type=${item.type}`" class="cards">
         <image
           v-for="src in item.pictures"
           :key="src"
