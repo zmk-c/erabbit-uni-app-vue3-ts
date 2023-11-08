@@ -22,7 +22,7 @@
         </view>
         <view class="options">
           <!-- 通用模拟登录 -->
-          <button>
+          <button @tap="onGetPhoneNumberSimple">
             <text class="icon icon-phone">模拟快捷登录</text>
           </button>
         </view>
@@ -33,27 +33,52 @@
 </template>
 
 <script setup lang="ts">
-import { postLoginWxMinAPI } from '@/services/login'
+import { postLoginWxMinAPI, postLoginWxMinSimpleAPI } from '@/services/login'
+import { useMemberStore } from '@/stores'
 import { onLoad } from '@dcloudio/uni-app'
 
-// 获取 code 登录凭证
+// 获取 code 登录凭证  （生产环境）
 let code = ''
 onLoad(async () => {
   const res = await wx.login()
   code = res.code
 })
 
-// 获取手机号码的处理函数
-const onGetPhoneNumber: UniHelper.ButtonOnGetphonenumber = (ev) => {
+// 获取手机号码的处理函数 （生产环境，企业中的写法）
+const onGetPhoneNumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
   const encryptedData = ev.detail!.encryptedData!
   const iv = ev.detail!.iv!
 
   // 调用接口请求登录
-  postLoginWxMinAPI({
+  const res = await postLoginWxMinAPI({
     code,
     encryptedData,
     iv,
   })
+  // 保存用户信息
+  const memberStore = useMemberStore()
+  memberStore.setProfile(res.result)
+  // 登录成功提示
+  uni.showToast({ icon: 'success', title: '登录成功～' })
+  setTimeout(() => {
+    // 登录成功进行页面跳转 跳转到tabBar页面只能用 switchTab (并关闭其他所有非 tabBar 页面，所以要提示的话 可以延迟半秒再跳转)
+    uni.switchTab({ url: '/pages/my/my' })
+  }, 500)
+}
+
+// ---------------- 模拟环境登录 只需要传一个phoneNumber即可 开发联系
+const onGetPhoneNumberSimple = async () => {
+  // 调用接口请求登录
+  const res = await postLoginWxMinSimpleAPI('13123456789')
+  // 保存用户信息
+  const memberStore = useMemberStore()
+  memberStore.setProfile(res.result)
+  // 登录成功提示
+  uni.showToast({ icon: 'success', title: '登录成功～' })
+  setTimeout(() => {
+    // 登录成功进行页面跳转 跳转到tabBar页面只能用 switchTab (并关闭其他所有非 tabBar 页面，所以要提示的话 可以延迟半秒再跳转)
+    uni.switchTab({ url: '/pages/my/my' })
+  }, 500)
 }
 </script>
 
