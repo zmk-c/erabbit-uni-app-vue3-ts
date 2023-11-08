@@ -32,11 +32,11 @@
           <text class="label">选择</text>
           <text class="text ellipsis"> 请选择商品规格 </text>
         </view>
-        <view class="item arrow">
+        <view class="item arrow" @tap="openPopup('address')">
           <text class="label">送至</text>
           <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
-        <view class="item arrow" @tap="popup?.open()">
+        <view class="item arrow" @tap="openPopup('service')">
           <text class="label">服务</text>
           <text class="text ellipsis"> 无忧退 快速退款 免费包邮 </text>
         </view>
@@ -109,13 +109,14 @@
 
   <!-- uni ui 弹出层 -->
   <uni-popup ref="popup" type="bottom" background-color="#fff">
-    <view>1111</view>
-    <view>2222</view>
-    <button @tap="popup?.close()">关闭弹窗</button>
+    <ServicePanel v-show="popupName == 'service'" @close="popup?.close()"></ServicePanel>
+    <AddressPanel v-show="popupName == 'address'" @close="popup?.close()"></AddressPanel>
   </uni-popup>
 </template>
 
 <script setup lang="ts">
+import ServicePanel from './components/ServicePanel.vue'
+import AddressPanel from './components/AddressPanel.vue'
 import { getGoodsByIdAPI } from '@/services/goods'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
@@ -158,11 +159,16 @@ const onTapImage = (imgUrl: string) => {
 // 弹出层属性
 const popup = ref<{
   open: (type?: UniHelper.UniPopupType) => void
-  close: (type?: UniHelper.UniPopupType) => void
+  close: () => void
 }>()
 
-// 弹出层
-const openPopUp = () => {}
+// 弹出层条件渲染
+const popupName = ref<'address' | 'service'>() // 目前只有服务和地址点击弹出层
+const openPopup = (name: typeof popupName.value) => {
+  // 修改弹出层名字
+  popupName.value = name
+  popup.value?.open()
+}
 </script>
 
 <style lang="scss">
