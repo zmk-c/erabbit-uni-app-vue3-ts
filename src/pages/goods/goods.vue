@@ -36,7 +36,7 @@
           <text class="label">送至</text>
           <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
-        <view class="item arrow">
+        <view class="item arrow" @tap="popup?.open()">
           <text class="label">服务</text>
           <text class="text ellipsis"> 无忧退 快速退款 免费包邮 </text>
         </view>
@@ -106,6 +106,13 @@
       <view class="buynow"> 立即购买 </view>
     </view>
   </view>
+
+  <!-- uni ui 弹出层 -->
+  <uni-popup ref="popup" type="bottom" background-color="#fff">
+    <view>1111</view>
+    <view>2222</view>
+    <button @tap="popup?.close()">关闭弹窗</button>
+  </uni-popup>
 </template>
 
 <script setup lang="ts">
@@ -147,6 +154,15 @@ const onTapImage = (imgUrl: string) => {
     urls: goods.value!.mainPictures, // 需要预览的图片链接列表 必传参数
   })
 }
+
+// 弹出层属性
+const popup = ref<{
+  open: (type?: UniHelper.UniPopupType) => void
+  close: (type?: UniHelper.UniPopupType) => void
+}>()
+
+// 弹出层
+const openPopUp = () => {}
 </script>
 
 <style lang="scss">
