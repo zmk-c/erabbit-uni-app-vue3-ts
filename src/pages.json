@@ -22,7 +22,7 @@
 		{
 			"path": "pages/my/my",
 			"style": {
-        "navigationStyle": "custom", // 隐藏自带的导航栏样式
+				"navigationStyle": "custom", // 隐藏自带的导航栏样式
 				"navigationBarTextStyle": "white",
 				"navigationBarTitleText": "我的"
 			}
@@ -96,5 +96,26 @@
 				"selectedIconPath": "static/tabs/user_selected.png"
 			}
 		]
-	}
+	},
+  // 分包加载规则
+	"subPackages": [
+		{
+			"root": "pagesMember",
+			"pages": [
+				{
+					"path": "settings/settings",
+					"style": {
+						"navigationBarTitleText": "设置"
+					}
+				}
+			]
+		}
+	],
+  // 分包预下载规则
+  "preloadRule": {
+    "pages/my/my": {
+      "network": "all", 
+      "packages": ["pagesMember"] 
+    }
+  }
 }
