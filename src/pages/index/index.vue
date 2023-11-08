@@ -2,7 +2,7 @@
  * @Author: zhangmaokai zmkfml@163.com
  * @Date: 2023-11-03 00:09:36
  * @LastEditors: zhangmaokai zmkfml@163.com
- * @LastEditTime: 2023-11-06 22:14:38
+ * @LastEditTime: 2023-11-08 16:42:54
  * @FilePath: /erabbit-uni-app-vue3-ts/src/pages/index/index.vue
  * @Description: 首页
 -->
@@ -76,7 +76,7 @@ onLoad(async () => {
   isLoading.value = false
 })
 
-// 获取猜你喜欢组件实例
+// 获取猜你喜欢组件实例 -> 可以换成组合式函数调用 在 composables/index.ts中
 const guessRef = ref<XtxGuessInstance>()
 // 滚动触底函数
 const onScrolltolower = () => {

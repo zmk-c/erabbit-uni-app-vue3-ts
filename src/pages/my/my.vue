@@ -1,5 +1,5 @@
 <template>
-  <scroll-view class="viewport" scroll-y enable-back-to-top>
+  <scroll-view class="viewport" scroll-y enable-back-to-top @scrolltolower="onScrolltolower">
     <!-- 个人资料 -->
     <view class="profile" :style="{ paddingTop: safeAreaInsets!.top + 'px' }">
       <!-- 情况1：已登录 -->
@@ -16,7 +16,6 @@
           </navigator>
         </view>
       </view>
-
       <!-- 情况2：未登录 -->
       <view class="overview" v-else>
         <navigator url="/pages/login/login" hover-class="none">
@@ -39,6 +38,7 @@
         设置
       </navigator>
     </view>
+
     <!-- 我的订单 -->
     <view class="orders">
       <view class="title">
@@ -63,6 +63,7 @@
         <button class="contact icon-handset" open-type="contact">售后</button>
       </view>
     </view>
+
     <!-- 猜你喜欢 -->
     <view class="guess">
       <XtxGuess ref="guessRef" />
@@ -72,6 +73,7 @@
 
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
+import { useGuessList } from '@/composables/index'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -85,6 +87,9 @@ const orderTypes = [
 
 // 获取会员信息
 const memberStore = useMemberStore()
+
+// 封装成了组合式函数 这里解构
+const { guessRef, onScrolltolower } = useGuessList()
 </script>
 
 <style lang="scss">
